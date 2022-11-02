@@ -19,6 +19,7 @@ moveFont = pygame.font.Font("OpenSans-Regular.ttf", 60)
 
 user = None
 board = ttt.initial_state()
+ai_turn = False
 
 while True:
 
@@ -90,7 +91,7 @@ while True:
 
         game_over = ttt.terminal(board)
         player = ttt.player(board)
-        print("player: ", player)
+
         # Show title
         if game_over:
             winner = ttt.winner(board)
@@ -102,20 +103,20 @@ while True:
             title = f"Play as {user}"
         else:
             title = f"Computer thinking..."
-
         title = largeFont.render(title, True, white)
         titleRect = title.get_rect()
         titleRect.center = ((width / 2), 30)
         screen.blit(title, titleRect)
-        print("user: ", user, " player: ", player)
-        print("game_over: ", game_over)
+
         # Check for AI move
         if user != player and not game_over:
-            time.sleep(0.5)
-            print("ai TURN")
-            move = ttt.minimax(board)
-            print(move)
-            board = ttt.result(board, move)
+            if ai_turn:
+                time.sleep(0.5)
+                move = ttt.minimax(board)
+                board = ttt.result(board, move)
+                ai_turn = False
+            else:
+                ai_turn = True
 
         # Check for a user move
         click, _, _ = pygame.mouse.get_pressed()
@@ -125,8 +126,6 @@ while True:
                 for j in range(3):
                     if (board[i][j] == ttt.EMPTY and tiles[i][j].collidepoint(mouse)):
                         board = ttt.result(board, (i, j))
-        print("board updated by: ", player)
-        print(board)
 
         if game_over:
             againButton = pygame.Rect(width / 3, height - 65, width / 3, 50)
@@ -142,7 +141,6 @@ while True:
                     time.sleep(0.2)
                     user = None
                     board = ttt.initial_state()
-            # ADDED break.  Debug end game TESTJPF!!!!
-            break
+                    ai_turn = False
 
     pygame.display.flip()
