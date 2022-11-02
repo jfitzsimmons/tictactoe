@@ -59,30 +59,28 @@ def result(board, action):
 
 
 def winner(board):
-    _board = board
-
     """
     Returns the winner of the game, if there is one.
     """
     for i in range(3):
         for j in range(3):
-            if _board[i][j] != EMPTY:
+            if board[i][j] != EMPTY:
                 if i == 0:
                     # across
-                    if _board[i][j] == _board[i+1][j] and _board[i+1][j] == _board[i+2][j]:
-                        return _board[i][j]
+                    if board[i][j] == board[i+1][j] and board[i+1][j] == board[i+2][j]:
+                        return board[i][j]
                     # diagnol top left
                     if j == 0:
-                        if _board[i][j] == _board[i+1][j+1] and _board[i+1][j+1] == _board[i+2][j+2]:
-                            return _board[i][j]
+                        if board[i][j] == board[i+1][j+1] and board[i+1][j+1] == board[i+2][j+2]:
+                            return board[i][j]
                     # diagnol bottom left
                     if j == 2:
-                        if _board[i][j] == _board[i+1][j-1] and _board[i+1][j-1] == _board[i+2][j-2]:
-                            return _board[i][j]
+                        if board[i][j] == board[i+1][j-1] and board[i+1][j-1] == board[i+2][j-2]:
+                            return board[i][j]
                 # vertical
                 if j == 0:
-                    if _board[i][j] == _board[i][j+1] and _board[i][j+1] == _board[i][j+2]:
-                        return _board[i][j]
+                    if board[i][j] == board[i][j+1] and board[i][j+1] == board[i][j+2]:
+                        return board[i][j]
     return None
 
 
